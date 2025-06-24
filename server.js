@@ -11,16 +11,24 @@
 
 PORT  = 3000; 
 
-const http = require('http');
+const http = require('http'); // for talking with the server
+const fs = require('fs'); // for file manipulation
+const url = require('url'); // working with links
 
-// 
+
 const server = http.createServer((req, res) => { // callback function 
+   const parsedUrl = url.parse(req.url, true); // true just means yes, we will parse the info into an object
 
-    res.writeHead(200, {'Content-Type' : 'text'});
-    // gives a status code, 200 generally means ok, and the type of the content 
+   // working with GET  --> obtaining from the server
+    if (req.method == 'GET' && parsedUrl.pathname == 'submit'){ // req.method is asking what kind of request are we dealing with
 
-    res.end('Hello');
 
+        // working with POST --> sending to the server
+    } else if(req.method == 'POST' && parsedUrl.pathname == 'submit'){ // parsedUrl.pathname checks the pathname in our parsedUrl object
+
+    } else {
+            // then the route is invalid, send an error
+    }
 })
 
 
