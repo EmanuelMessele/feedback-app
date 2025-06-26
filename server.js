@@ -19,7 +19,7 @@ const url = require('url'); // working with links
 const server = http.createServer((req, res) => { // callback function 
    const parsedUrl = url.parse(req.url, true); // true just means yes, we will parse the info into an object
 
-   // working with GET  --> obtaining from the server
+   // working with POST  --> sending to the server
     if (req.method == 'POST' && parsedUrl.pathname == '/submit'){ // req.method is asking what kind of request are we dealing with
 
         body = '';
@@ -49,21 +49,27 @@ const server = http.createServer((req, res) => { // callback function
             res.end("Feedback Not received");
         }
         });
-        
 
-        
-
-        // respond to the user
-
-
-
-        // working with POST --> sending to the server
+        // working with GET --> obtaining from the server
     } else if(req.method == 'GET' && parsedUrl.pathname == '/feedbacks'){ // parsedUrl.pathname checks the pathname in our parsedUrl object
+        
+        // get request means we have to send the user their feedback
+        fs.readFile('feedback.txt','utf-8', (err,data)=> {
+            if(err){
+                console.error('Error reading feedback file', err);
+                res.writeHead('500', {'Content-Type': 'text/plain'});
+                res.end('No feedback')
+                return;
+            }
 
+            res.writeHead(200, {'Content-Type' : 'text/plain'});
+            res.end(data); 
+        })
 
 
     } else {
             // then the route is invalid, send an error
+            console.error("Invalid Route");
     }
 })
 
