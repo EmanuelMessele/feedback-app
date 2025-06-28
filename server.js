@@ -57,7 +57,7 @@ const server = http.createServer((req, res) => { // callback function
         fs.readFile('feedback.txt','utf-8', (err,data)=> {
             if(err){
                 console.error('Error reading feedback file', err);
-                res.writeHead('500', {'Content-Type': 'text/plain'});
+                res.writeHead('500', {'Content-Type': 'text/plain'}); // this header tells the browser what kind of format our respone will be 
                 res.end('No feedback')
                 return;
             }
